@@ -1,33 +1,108 @@
 <!DOCTYPE html>
 <html lang="es">
-<head><meta charset="UTF-8"><title>Fuente de Datos</title></head>
+<head>
+    <meta charset="UTF-8">
+    <title>Panel de Control | San Pedro Sur</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0f2f5; padding: 20px; }
+        .admin-container { max-width: 900px; margin: auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+        h1 { color: #c00000; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input, select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; }
+        .btn { background: #c00000; color: white; border: none; padding: 12px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; transition: 0.3s; }
+        .btn:hover { background: #900000; }
+        .output-section { margin-top: 30px; background: #1e1e1e; color: #d4d4d4; padding: 20px; border-radius: 8px; position: relative; }
+        pre { white-space: pre-wrap; word-wrap: break-word; font-size: 11px; }
+        .copy-hint { color: #f1c40f; font-size: 13px; margin-bottom: 10px; font-weight: bold; }
+    </style>
+</head>
 <body>
-    <div id="fuente-noticias">
+
+<div class="admin-container">
+    <h1>Administrador de Contenido</h1>
+    
+    <div class="form-group">
+        <label>Tipo de Contenido:</label>
+        <select id="type">
+            <option value="news">Noticia (Cuadrícula)</option>
+            <option value="viral">Viral (Reel/Video)</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Título / Texto:</label>
+        <input type="text" id="title" placeholder="Ej: Nueva obra en el centro">
+    </div>
+
+    <div class="form-group">
+        <label>URL de Imagen:</label>
+        <input type="text" id="img" placeholder="https://imagen.jpg">
+    </div>
+
+    <div class="form-group">
+        <label>URL de Redirección (Enlace):</label>
+        <input type="text" id="link" placeholder="https://facebook.com/noticia-completa">
+    </div>
+
+    <button class="btn" onclick="agregarElemento()">Agregar a la Lista</button>
+
+    <div class="output-section">
+        <div class="copy-hint">CÓDIGO PARA GITHUB (Copia desde aquí abajo y pégalo en el index de NOTI-PUBLIC):</div>
+        <pre id="codigo-final">
+&lt;div id="fuente-noticias"&gt;
+    &lt;!-- Aquí aparecerán tus noticias --&gt;
+&lt;/div&gt;
+
+&lt;div id="fuente-viral"&gt;
+    &lt;!-- Aquí aparecerán tus videos --&gt;
+&lt;/div&gt;
+        </pre>
+    </div>
+</div>
+
+<script>
+    let noticiasHTML = "";
+    let viralHTML = "";
+
+    function agregarElemento() {
+        const type = document.getElementById('type').value;
+        const title = document.getElementById('title').value;
+        const img = document.getElementById('img').value;
+        const link = document.getElementById('link').value;
+
+        if (type === 'news') {
+            noticiasHTML += `
+    <a href="${link}" target="_blank" class="article-card">
+        <img src="${img}">
+        <div class="content"><h3>${title}</h3></div>
+    </a>\n`;
+        } else {
+            viralHTML += `
+    <a href="${link}" target="_blank" class="reel-card">
+        <img src="${img}">
+        <div class="reel-overlay"><p>${title}</p></div>
+    </a>\n`;
+        }
+
+        const resultado = `
+<div id="fuente-noticias">
+    ${noticiasHTML}
+</div>
+
+<div id="fuente-viral">
+    ${viralHTML}
+</div>`;
+
+        document.getElementById('codigo-final').innerText = resultado;
         
-        <a href="https://url-de-la-noticia-1.com" class="article-card">
-            <img src="https://images.unsplash.com/photo-1585829365234-781fcd50c819?w=600" alt="Noticia 1">
-            <div class="content"><h3>Gran avance tecnológico en San Pedro Sur</h3></div>
-        </a>
+        // Limpiar campos
+        document.getElementById('title').value = "";
+        document.getElementById('img').value = "";
+        document.getElementById('link').value = "";
+        alert("¡Añadido! Copia el código negro y actualiza tu repositorio.");
+    }
+</script>
 
-        <a href="https://url-de-la-noticia-2.com" class="article-card">
-            <img src="https://images.unsplash.com/photo-1504439468489-c8920d796a29?w=600" alt="Noticia 2">
-            <div class="content"><h3>Nuevos proyectos de infraestructura local</h3></div>
-        </a>
-
-    </div>
-
-    <div id="fuente-viral">
-
-        <a href="https://tiktok.com/@video1" class="reel-card">
-            <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400">
-            <div class="reel-overlay"><p>#EnVivo: Centro Histórico</p></div>
-        </a>
-
-        <a href="https://youtube.com/shorts/video2" class="reel-card">
-            <img src="https://images.unsplash.com/photo-1533107862482-0e6974b06ec4?w=400">
-            <div class="reel-overlay"><p>Gastronomía de Verano</p></div>
-        </a>
-
-    </div>
 </body>
 </html>
